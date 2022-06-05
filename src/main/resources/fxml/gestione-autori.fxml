@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.GestioneAutoriController">
+   <children>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <DialogPane prefHeight="400.0" prefWidth="600.0">
+               <content>
+                  <TextFlow prefHeight="200.0" prefWidth="200.0" textAlignment="JUSTIFY">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                     <children>
+                        <Separator prefHeight="5.0" prefWidth="579.0" />
+                        <Label fx:id="contentAutori" prefHeight="258.0" prefWidth="577.0" />
+                     </children>
+                  </TextFlow>
+               </content>
+               <header>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Autori" textAlignment="CENTER" wrappingWidth="144.83203125">
+                     <font>
+                        <Font name="System Bold" size="21.0" />
+                     </font>
+                  </Text>
+               </header>
+            </DialogPane>
+            <Button fx:id="back" layoutX="242.0" layoutY="322.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="116.0" text="Chiudi" textAlignment="CENTER" />
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

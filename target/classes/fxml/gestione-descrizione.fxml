@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.GestioneDescrizioneController">
+   <children>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <DialogPane fx:id="dialogDescrizione" prefHeight="400.0" prefWidth="600.0">
+               <header>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Descrizione" textAlignment="CENTER" wrappingWidth="144.83203125">
+                     <font>
+                        <Font name="System Bold" size="21.0" />
+                     </font>
+                     <stroke>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="1.0" blue="1.0" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </LinearGradient>
+                     </stroke>
+                  </Text>
+               </header>
+               <content>
+                  <Label fx:id="labelDescrizione"  />
+               </content></DialogPane>
+            <Button fx:id="close" layoutX="242.0" layoutY="322.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="116.0" text="Chiudi" textAlignment="CENTER" />
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

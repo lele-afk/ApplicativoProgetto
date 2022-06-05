@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.GestioneCreazioneController">
+   <children>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" />
+      <DialogPane prefHeight="400.0" prefWidth="600.0">
+         <header>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Creazione Bibliografia" textAlignment="CENTER" wrappingWidth="596.8320922851562">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+               <stroke>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </stroke>
+            </Text>
+         </header>
+         <content>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Text layoutX="17.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Titolo" wrappingWidth="93.18305015563965" />
+                  <TextField fx:id="titolo" layoutX="13.0" layoutY="26.0" promptText="Inserisci Titolo" />
+                  <Text layoutX="17.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo" wrappingWidth="93.18305015563965" />
+                  <TextField fx:id="tipo" layoutX="13.0" layoutY="102.0" promptText="Inserisci Tipo" AnchorPane.bottomAnchor="228.468359375" />
+                  <Text layoutX="17.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Autori" wrappingWidth="93.18305015563965" />
+                  <Text layoutX="17.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="URL" wrappingWidth="93.18305015563965" />
+                  <TextField fx:id="url" layoutX="14.0" layoutY="237.0" promptText="Inserisci URL" />
+                  <Text layoutX="17.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DOI" wrappingWidth="93.18305015563965" />
+                  <TextField fx:id="doi" layoutX="14.0" layoutY="310.0" promptText="Inserisci DOI" />
+                  <Text layoutX="383.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data" wrappingWidth="93.18305015563965" />
+                  <DatePicker fx:id="dataCreazione" layoutX="383.0" layoutY="39.0" promptText="Seleziona data" />
+                  <Text layoutX="383.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrizione" wrappingWidth="93.18305015563965" />
+                  <TextArea fx:id="descrizione" layoutX="383.0" layoutY="115.0" prefHeight="135.0" prefWidth="200.0" promptText="Inserisci una descrizione per la bibliografia" />
+                  <Button fx:id="back" layoutX="365.0" layoutY="292.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="98.0" style="-fx-background-color: red;" text="Annulla" textAlignment="CENTER" textFill="#262323" />
+                  <ComboBox fx:id="autori" layoutX="13.0" layoutY="165.0" prefWidth="150.0" />
+                  <Button fx:id="creazione" layoutX="483.0" layoutY="292.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="110.0" text="Crea" />
+               </children>
+            </AnchorPane>
+         </content>
+      </DialogPane>
+   </children>
+</StackPane>
