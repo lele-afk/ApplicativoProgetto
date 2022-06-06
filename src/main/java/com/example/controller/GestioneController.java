@@ -169,8 +169,25 @@ public class GestioneController implements Initializable {
             }
         });
 
-        azioni.setCellFactory(ActionButtonTableCell.<RifBibliografico>forTableColumn("azione",(RifBibliografico rif) -> {
-            System.out.println(rif.getTipo());
+        azioni.setCellFactory(ActionButtonTableCell.<RifBibliografico>forTableColumn("seleziona rimando",(RifBibliografico rif) -> {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource(
+                            "/fxml/gestione-rimando.fxml"
+                    )
+            );
+            Stage stage = new Stage();
+            try {
+                stage.setScene(
+                        new Scene(loader.load())
+                );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            GestioneRimandoController controller = loader.getController();
+            controller.setRif(rif);
+            controller.setRifs(listRif.filtered(rifBibliografico -> rifBibliografico.getId()!=rif.getId()));
+            controller.setAutoriRif(rifXAutori);
+            stage.show();
             return rif;
         }));
 
