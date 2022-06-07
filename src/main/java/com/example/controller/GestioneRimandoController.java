@@ -4,6 +4,10 @@ import com.example.connection.DbConnection;
 import com.example.model.Autori;
 import com.example.model.RifBibliografico;
 import com.example.modelDAO.RifAutoriDAO;
+import com.example.modelDAO.RifBiblioDAO;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,14 +16,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class GestioneRimandoController implements Initializable {
@@ -75,6 +82,7 @@ public class GestioneRimandoController implements Initializable {
         this.rifXAutori = rifXAutori;
     }
 
+    private ArrayList<Integer> idRif = new ArrayList<>();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -134,6 +142,40 @@ public class GestioneRimandoController implements Initializable {
             return rif;
         }));
 
+        select.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<RifBibliografico, CheckBox>, ObservableValue<CheckBox>>() {
+
+            @Override
+            public ObservableValue<CheckBox> call(
+                    TableColumn.CellDataFeatures<RifBibliografico, CheckBox> arg0) {
+                RifBibliografico rif = arg0.getValue();
+
+                CheckBox checkBox = new CheckBox();
+
+                checkBox.selectedProperty().setValue(rif.isSelected());
+
+
+
+                checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                    public void changed(ObservableValue<? extends Boolean> ov,
+                                        Boolean old_val, Boolean new_val) {
+
+                        rif.setSelected(new_val);
+                        if(new_val){
+                            idRif.add(rif.getId());
+                        }else{
+                            idRif.remove(rif.getId());
+                        }
+
+
+                    }
+                });
+
+                return new SimpleObjectProperty<CheckBox>(checkBox);
+
+            }
+
+        });
+
 
 
 
@@ -144,7 +186,25 @@ public class GestioneRimandoController implements Initializable {
         });
 
         submit.setOnAction(event -> {
-            System.out.println("Submit");
+            try{
+                DbConnection db = DbConnection.getInstance();
+                RifBiblioDAO rif = new RifBiblioDAO(DbConnection.getInstance().getConnection());
+                idRif.forEach(integer -> {
+                    try {
+                        rif.postRifxRif(this.rif.getId(),integer);
+                        Stage currentScene = (Stage)((Node)event.getSource()).getScene().getWindow();
+                        currentScene.close();
+                    } catch (SQLException e) {
+                        Stage currentScene = (Stage)((Node)event.getSource()).getScene().getWindow();
+                        currentScene.close();
+                        System.out.println(e);
+                        e.printStackTrace();
+                    }
+                });
+            }catch (Exception err){
+                System.out.println("err>>"+err);
+            }
+
         });
     }
 }

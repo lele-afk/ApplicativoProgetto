@@ -19,7 +19,7 @@ public class ActionButtonTableCell<S> extends TableCell<S, Button> {
         this.actionButton.setOnAction((ActionEvent e) -> {
             function.apply(getCurrentItem());
         });
-        this.actionButton.setMaxWidth(Double.MAX_VALUE);
+        this.actionButton.setPrefWidth(130);
     }
 
     public S getCurrentItem() {

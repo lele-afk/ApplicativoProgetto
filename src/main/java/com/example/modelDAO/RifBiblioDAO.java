@@ -17,8 +17,10 @@ public class RifBiblioDAO implements RifBiblioDAOI {
     private PreparedStatement getRifWithTitle;
     private final PreparedStatement getRifXAutore;
     private final PreparedStatement postRif;
+    private final PreparedStatement postRifxRif;
     public RifBiblioDAO(Connection connection) throws SQLException {
         this.connection = connection;
+        postRifxRif = connection.prepareStatement("INSERT INTO \"Rimando\"(\"idRiferimento\", \"idRimando\") VALUES (?, ?);");
         getRif = connection.prepareStatement("SELECT * FROM \"Riferimento\"");
         getRifWithTitle = connection.prepareStatement("SELECT * FROM \"Riferimento\" WHERE \"titolo\" = ?");
         postRif = connection.prepareStatement("INSERT INTO \"Riferimento\"(titolo, data, descrizione, doi, url, \"idUser\", tipo) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING \"idRiferimento\";");
@@ -52,6 +54,13 @@ public class RifBiblioDAO implements RifBiblioDAOI {
         }
 
     return id;
+    }
+
+    public Boolean postRifxRif(Integer idRif, Integer idRimando)throws SQLException{
+        postRifxRif.setInt(1,idRif);
+        postRifxRif.setInt(2,idRimando);
+        ResultSet res = postRif.executeQuery();
+        return true;
     }
 
 

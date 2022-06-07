@@ -17,9 +17,8 @@ public class RifBibliografico  {
     private Utente utente;
     private String descrizione;
     private  List<RifBibliografico> rifBibliografico;
-   // private  List<Autori> autori;
 
-    public RifBibliografico(Integer idRiferimento,String titolo, String data, String URL, String DOI, String tipo, String idUtente, String descrizione, String rifBibliografico/*,Autori autori*/) throws SQLException {
+    public RifBibliografico(Integer idRiferimento,String titolo, String data, String URL, String DOI, String tipo, String idUtente, String descrizione, String rifBibliografico) throws SQLException {
         this.titolo = titolo;
         this.idRiferimento=idRiferimento;
         this.data = data;
@@ -29,8 +28,7 @@ public class RifBibliografico  {
         UtenteDAO utenteDAO = new UtenteDAO(DbConnection.getInstance().getConnection());
         this.utente = utenteDAO.getUtente(1);
         this.descrizione = descrizione;
-        //this.rifBibliografico.add(new RifBiblioDAO(DbConnection.getInstance().getConnection()).getRifWithTitle(rifBibliografico));
-      //  this.autori.add(autori);
+
     }
 
     public String getTitolo() {
@@ -103,6 +101,14 @@ public class RifBibliografico  {
 
     public void setRifBibliografico(ArrayList<RifBibliografico> rifBibliografico) {
         this.rifBibliografico = rifBibliografico;
+    }
+
+    public Boolean isSelected() {
+        return false;
+    }
+
+    public void setSelected(Boolean new_val) {
+        System.out.println(new_val);
     }
 
   /*  public List<Autori> getAutori() {

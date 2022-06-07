@@ -8,5 +8,6 @@ import java.sql.SQLException;
 public interface RifBiblioDAOI {
 
     public ObservableList<RifBibliografico> getRif() throws SQLException;
-    public Integer postRif(String titolo, String url, String doi, String descrizione, String dataCreazione/* Autori autore*/, String tipo) throws SQLException;
+    public Integer postRif(String titolo, String url, String doi, String descrizione, String dataCreazione, String tipo) throws SQLException;
+    public Boolean postRifxRif(Integer idRiferimento, Integer idRimando) throws SQLException;
 }
