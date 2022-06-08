@@ -16,7 +16,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -56,15 +55,10 @@ public class GestioneController implements Initializable {
     private TableColumn<RifBibliografico, String> indirizzoURL;
 
     @FXML
-    private TableColumn<RifBibliografico, Button> rimando;
+    private TableColumn rimando;
 
     @FXML
     private TableColumn<RifBibliografico, String> doi;
-
-    @FXML
-    private DialogPane dialogDescrizione;
-
-
 
     @FXML
     private TableColumn azioni;
@@ -72,6 +66,7 @@ public class GestioneController implements Initializable {
 
 
     private ObservableList<RifBibliografico> listRif;
+    private ObservableList<RifBibliografico> listRifxRif;
     private ObservableList<WrapperCheck<Autori>> listaAutore;
     private ObservableList<Autori> rifXAutori;
 
@@ -79,13 +74,13 @@ public class GestioneController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             DbConnection db = DbConnection.getInstance();
-            RifBiblioDAO rif = new RifBiblioDAO(DbConnection.getInstance().getConnection());
+            RifBiblioDAO rifBiblioDAO = new RifBiblioDAO(DbConnection.getInstance().getConnection());
             AutoriDAO aut = new AutoriDAO(DbConnection.getInstance().getConnection());
 
 
             listaAutore = aut.getAutori();
 
-            listRif = rif.getRif();
+            listRif = rifBiblioDAO.getRif();
         }catch (Exception err){
             System.out.println(err.getMessage());
             err.printStackTrace();
@@ -168,6 +163,30 @@ public class GestioneController implements Initializable {
 
             }
         });
+
+        rimando.setCellFactory(ActionButtonTableCell.<RifBibliografico>forTableColumn("rimandi",(RifBibliografico rif) -> {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource(
+                            "/fxml/gestione-viewRimando.fxml"
+                    )
+            );
+            Stage stage = new Stage();
+            try {
+
+                RifBiblioDAO rifBiblioDAO = new RifBiblioDAO(DbConnection.getInstance().getConnection());
+                listRifxRif=rifBiblioDAO.getRifxRif(rif.getId());
+                stage.setScene(
+                        new Scene(loader.load())
+                );
+            } catch (IOException | SQLException e) {
+                e.printStackTrace();
+            }
+            GestioneViewRimandoController controller = loader.getController();
+            controller.setRifs(listRifxRif);
+            stage.show();
+            return rif;
+        }));
+
 
         azioni.setCellFactory(ActionButtonTableCell.<RifBibliografico>forTableColumn("seleziona rimando",(RifBibliografico rif) -> {
             FXMLLoader loader = new FXMLLoader(

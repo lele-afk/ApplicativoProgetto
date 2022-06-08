@@ -18,8 +18,10 @@ public class RifBiblioDAO implements RifBiblioDAOI {
     private final PreparedStatement getRifXAutore;
     private final PreparedStatement postRif;
     private final PreparedStatement postRifxRif;
+    private final PreparedStatement getRifxRif;
     public RifBiblioDAO(Connection connection) throws SQLException {
         this.connection = connection;
+        getRifxRif=connection.prepareStatement("SELECT * FROM \"Rimando\" INNER JOIN \"Riferimento\" ON \"Rimando\".\"idRiferimento\" = \"Riferimento\".\"idRiferimento\" WHERE \"Rimando\".\"idRiferimento\" = ?");
         postRifxRif = connection.prepareStatement("INSERT INTO \"Rimando\"(\"idRiferimento\", \"idRimando\") VALUES (?, ?) RETURNING \"id\"");
         getRif = connection.prepareStatement("SELECT * FROM \"Riferimento\"");
         getRifWithTitle = connection.prepareStatement("SELECT * FROM \"Riferimento\" WHERE \"titolo\" = ?");
@@ -37,9 +39,22 @@ public class RifBiblioDAO implements RifBiblioDAOI {
         }
         return listaRif;
     }
+    @Override
+    public ObservableList<RifBibliografico> getRifxRif(Integer idRiferimento) throws SQLException {
+        ObservableList<RifBibliografico> listaRif = FXCollections.observableArrayList();
+        getRifxRif.setInt(1,idRiferimento);
+        ResultSet res = getRifxRif.executeQuery();
+
+        while(res.next()){
+            listaRif.add(new RifBibliografico(res.getInt("idRiferimento"),res.getString("titolo"),res.getString("data"), res.getString("url"), res.getString("doi"), res.getString("tipo"), res.getString("idUser"),res.getString("descrizione"), res.getString("idRiferimento")/*,getRifXAutore(res.getInt("idAutore"))*/));
+
+        }
+
+        return listaRif;
+    }
 
     @Override
-    public Integer postRif(String titolo, String url, String doi, String descrizione, String dataCreazione /*Autori autore*/, String tipo) throws SQLException {
+    public Integer postRif(String titolo, String url, String doi, String descrizione, String dataCreazione , String tipo) throws SQLException {
         postRif.setString(1,titolo);
         postRif.setString(2, dataCreazione.toString());
         postRif.setString(3,descrizione);
