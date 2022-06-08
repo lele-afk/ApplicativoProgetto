@@ -191,6 +191,7 @@ public class GestioneRimandoController implements Initializable {
                 RifBiblioDAO rif = new RifBiblioDAO(DbConnection.getInstance().getConnection());
                 idRif.forEach(integer -> {
                     try {
+
                         rif.postRifxRif(this.rif.getId(),integer);
                         Stage currentScene = (Stage)((Node)event.getSource()).getScene().getWindow();
                         currentScene.close();

@@ -123,6 +123,7 @@ public class GestioneCreazioneController implements Initializable {
                     autori.getItems().filtered( f -> f.getCheck()).forEach( item ->
                     {
                         try {
+
                             rifAutoriDAO.postRifXAutori(item.getItem().getCodiceUnivoco(),id);
                             item.setCheck(false);
                         } catch (SQLException e) {
