@@ -4,8 +4,6 @@ import com.example.connection.DbConnection;
 import com.example.modelDAO.UtenteDAO;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RifBibliografico  {
     private Integer idRiferimento;
@@ -16,9 +14,9 @@ public class RifBibliografico  {
     private String tipo;
     private Utente utente;
     private String descrizione;
-    private  List<RifBibliografico> rifBibliografico;
+    private  Integer idRimando;
 
-    public RifBibliografico(Integer idRiferimento,String titolo, String data, String URL, String DOI, String tipo, String idUtente, String descrizione, String rifBibliografico) throws SQLException {
+    public RifBibliografico(Integer idRiferimento,String titolo, String data, String URL, String DOI, String tipo, String idUtente, String descrizione, Integer idRimando) throws SQLException {
         this.titolo = titolo;
         this.idRiferimento=idRiferimento;
         this.data = data;
@@ -28,8 +26,10 @@ public class RifBibliografico  {
         UtenteDAO utenteDAO = new UtenteDAO(DbConnection.getInstance().getConnection());
         this.utente = utenteDAO.getUtente(1);
         this.descrizione = descrizione;
+        this.idRimando = idRimando;
 
     }
+
 
     public String getTitolo() {
         return titolo;
@@ -95,13 +95,7 @@ public class RifBibliografico  {
         this.descrizione = descrizione;
     }
 
-    public List<RifBibliografico> getRifBibliografico() {
-        return rifBibliografico;
-    }
 
-    public void setRifBibliografico(ArrayList<RifBibliografico> rifBibliografico) {
-        this.rifBibliografico = rifBibliografico;
-    }
 
     public Boolean isSelected() {
         return false;
@@ -109,6 +103,14 @@ public class RifBibliografico  {
 
     public void setSelected(Boolean new_val) {
         System.out.println(new_val);
+    }
+
+    public Integer getIdRimando() {
+        return idRimando;
+    }
+
+    public void setIdRimando(Integer idRimando) {
+        this.idRimando = idRimando;
     }
 
   /*  public List<Autori> getAutori() {

@@ -21,9 +21,9 @@ public class RifBiblioDAO implements RifBiblioDAOI {
     private final PreparedStatement getRifxRif;
     public RifBiblioDAO(Connection connection) throws SQLException {
         this.connection = connection;
-        getRifxRif=connection.prepareStatement("SELECT * FROM \"Rimando\" INNER JOIN \"Riferimento\" ON \"Rimando\".\"idRiferimento\" = \"Riferimento\".\"idRiferimento\" WHERE \"Rimando\".\"idRiferimento\" = ?");
+        getRifxRif=connection.prepareStatement("SELECT  * FROM \"Rimando\" INNER JOIN \"Riferimento\" ON \"Rimando\".\"idRimando\" = \"Riferimento\".\"idRiferimento\" WHERE \"Rimando\".\"idRiferimento\" = ?");
         postRifxRif = connection.prepareStatement("INSERT INTO \"Rimando\"(\"idRiferimento\", \"idRimando\") VALUES (?, ?) RETURNING \"id\"");
-        getRif = connection.prepareStatement("SELECT * FROM \"Riferimento\"");
+        getRif = connection.prepareStatement("SELECT DISTINCT  * FROM \"Riferimento\" FULL JOIN \"Rimando\" ON \"Rimando\".\"idRiferimento\" = \"Riferimento\".\"idRiferimento\"");
         getRifWithTitle = connection.prepareStatement("SELECT * FROM \"Riferimento\" WHERE \"titolo\" = ?");
         postRif = connection.prepareStatement("INSERT INTO \"Riferimento\"(titolo, data, descrizione, doi, url, \"idUser\", tipo) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING \"idRiferimento\";");
         getRifXAutore = connection.prepareStatement("SELECT * FROM RiferimentoXAutore WHERE idAutore=");
@@ -34,7 +34,7 @@ public class RifBiblioDAO implements RifBiblioDAOI {
         ObservableList<RifBibliografico> listaRif = FXCollections.observableArrayList();
         ResultSet res = getRif.executeQuery();
         while(res.next()){
-            listaRif.add(new RifBibliografico(res.getInt("idRiferimento"),res.getString("titolo"),res.getString("data"), res.getString("url"), res.getString("doi"), res.getString("tipo"), res.getString("idUser"),res.getString("descrizione"), res.getString("idRiferimento")/*,getRifXAutore(res.getInt("idAutore"))*/));
+            listaRif.add(new RifBibliografico(res.getInt("idRiferimento"),res.getString("titolo"),res.getString("data"), res.getString("url"), res.getString("doi"), res.getString("tipo"), res.getString("idUser"),res.getString("descrizione"), res.getInt("idRimando")/*,getRifXAutore(res.getInt("idAutore"))*/));
 
         }
         return listaRif;
@@ -46,7 +46,8 @@ public class RifBiblioDAO implements RifBiblioDAOI {
         ResultSet res = getRifxRif.executeQuery();
 
         while(res.next()){
-            listaRif.add(new RifBibliografico(res.getInt("idRiferimento"),res.getString("titolo"),res.getString("data"), res.getString("url"), res.getString("doi"), res.getString("tipo"), res.getString("idUser"),res.getString("descrizione"), res.getString("idRiferimento")/*,getRifXAutore(res.getInt("idAutore"))*/));
+
+            listaRif.add(new RifBibliografico(res.getInt("idRiferimento"),res.getString("titolo"),res.getString("data"), res.getString("url"), res.getString("doi"), res.getString("tipo"), res.getString("idUser"),res.getString("descrizione"), res.getInt("idRimando")));
 
         }
 
@@ -75,17 +76,18 @@ public class RifBiblioDAO implements RifBiblioDAOI {
         postRifxRif.setInt(1,idRif);
         postRifxRif.setInt(2,idRimando);
         ResultSet res = postRifxRif.executeQuery();
+        this.getRifxRif(idRimando);
         return res;
     }
 
 
-    public RifBibliografico getRifWithTitle(String title) throws SQLException {
+   /* public RifBibliografico getRifWithTitle(String title) throws SQLException {
         getRifWithTitle.setString(1,title);
 
         ResultSet res = getRifWithTitle.executeQuery();
 
-        return new RifBibliografico(res.getInt("idRiferimento"),res.getString("titolo"),res.getString("data"), res.getString("url"), res.getString("doi"), res.getString("tipo"), res.getString("idUser"),res.getString("descrizione"), res.getString("idRiferimento")/*,getRifXAutore(res.getInt("idAutore"))*/);
-    }
+        return new RifBibliografico(res.getInt("idRiferimento"),res.getString("titolo"),res.getString("data"), res.getString("url"), res.getString("doi"), res.getString("tipo"), res.getString("idUser"),res.getString("descrizione"), res.getString("idRiferimento"));
+    }*/
 
     public Autori getRifXAutore(Integer idAutore) throws SQLException {
         getRifXAutore.executeQuery("SELECT * FROM \"RiferimentoXAutore\" WHERE \"idAutore\"=" +idAutore);

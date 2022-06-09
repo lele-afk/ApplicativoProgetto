@@ -28,6 +28,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GestioneRimandoController implements Initializable {
 
@@ -67,6 +68,8 @@ public class GestioneRimandoController implements Initializable {
     private RifBibliografico rif;
     private ObservableList<RifBibliografico> rifs = FXCollections.observableArrayList();
     private ObservableList<Autori> rifXAutori = FXCollections.observableArrayList();
+    private ObservableList<RifBibliografico> rifXrif = FXCollections.observableArrayList();
+
 
     //prendo il rif per fare un filtro sulla tabella in modo da escludere se stesso
 
@@ -75,7 +78,11 @@ public class GestioneRimandoController implements Initializable {
     }
 
     public void setRifs(ObservableList<RifBibliografico> rifs) {
+        this.rifs = rifs;
         tableRimando.setItems(rifs);
+    }
+    public void setRifxRif(ObservableList<RifBibliografico> rifxrif){
+        this.rifXrif = rifXrif;
     }
 
     public void setAutoriRif(ObservableList<Autori> rifXAutori){
@@ -150,8 +157,16 @@ public class GestioneRimandoController implements Initializable {
                 RifBibliografico rif = arg0.getValue();
 
                 CheckBox checkBox = new CheckBox();
+                AtomicBoolean checked= new AtomicBoolean(false);
+                rifXrif.forEach(rifBibliografico -> {
+                    System.out.println("rifbiblio "+rifBibliografico.getIdRimando());
+                    System.out.println("rifRimando "+rif.getIdRimando());
+                    if(rifBibliografico.getIdRimando() == rif.getIdRimando()){
+                        checked.set(true);
 
-                checkBox.selectedProperty().setValue(rif.isSelected());
+                    }
+                });
+                checkBox.selectedProperty().setValue(checked.get());
 
 
 

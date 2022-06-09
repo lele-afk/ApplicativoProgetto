@@ -76,11 +76,11 @@ public class GestioneController implements Initializable {
             DbConnection db = DbConnection.getInstance();
             RifBiblioDAO rifBiblioDAO = new RifBiblioDAO(DbConnection.getInstance().getConnection());
             AutoriDAO aut = new AutoriDAO(DbConnection.getInstance().getConnection());
+            listRif=rifBiblioDAO.getRif();
 
 
             listaAutore = aut.getAutori();
 
-            listRif = rifBiblioDAO.getRif();
         }catch (Exception err){
             System.out.println(err.getMessage());
             err.printStackTrace();
@@ -174,6 +174,8 @@ public class GestioneController implements Initializable {
             try {
 
                 RifBiblioDAO rifBiblioDAO = new RifBiblioDAO(DbConnection.getInstance().getConnection());
+
+                //ELIMINARE DUPLICATI IN TABELLA E FAR FUNZIONARE LA CHECKBOX
                 listRifxRif=rifBiblioDAO.getRifxRif(rif.getId());
                 stage.setScene(
                         new Scene(loader.load())
@@ -196,15 +198,19 @@ public class GestioneController implements Initializable {
             );
             Stage stage = new Stage();
             try {
+                RifBiblioDAO rifBiblioDAO = new RifBiblioDAO(DbConnection.getInstance().getConnection());
+                listRifxRif=rifBiblioDAO.getRifxRif(rif.getIdRimando());
+
                 stage.setScene(
                         new Scene(loader.load())
                 );
-            } catch (IOException e) {
+            } catch (IOException | SQLException e) {
                 e.printStackTrace();
             }
             GestioneRimandoController controller = loader.getController();
             controller.setRif(rif);
             controller.setRifs(listRif.filtered(rifBibliografico -> rifBibliografico.getId()!=rif.getId()));
+            controller.setRifxRif(listRifxRif);
             controller.setAutoriRif(rifXAutori);
             stage.show();
             return rif;
