@@ -67,6 +67,7 @@ public class GestioneController implements Initializable {
 
     private ObservableList<RifBibliografico> listRif;
     private ObservableList<RifBibliografico> listRifxRif;
+    private ObservableList<RifBibliografico> listSetRimandi;
     private ObservableList<WrapperCheck<Autori>> listaAutore;
     private ObservableList<Autori> rifXAutori;
 
@@ -199,8 +200,8 @@ public class GestioneController implements Initializable {
             Stage stage = new Stage();
             try {
                 RifBiblioDAO rifBiblioDAO = new RifBiblioDAO(DbConnection.getInstance().getConnection());
-                listRifxRif=rifBiblioDAO.getRifxRif(rif.getIdRimando());
-
+                listSetRimandi=rifBiblioDAO.setRimandi(rif.getId());
+                listRifxRif=rifBiblioDAO.getRifxRif(rif.getId());
                 stage.setScene(
                         new Scene(loader.load())
                 );
@@ -209,7 +210,7 @@ public class GestioneController implements Initializable {
             }
             GestioneRimandoController controller = loader.getController();
             controller.setRif(rif);
-            controller.setRifs(listRif.filtered(rifBibliografico -> rifBibliografico.getId()!=rif.getId()));
+            controller.setRifs(listSetRimandi);
             controller.setRifxRif(listRifxRif);
             controller.setAutoriRif(rifXAutori);
             stage.show();

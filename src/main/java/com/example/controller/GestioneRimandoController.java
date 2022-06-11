@@ -81,7 +81,7 @@ public class GestioneRimandoController implements Initializable {
         this.rifs = rifs;
         tableRimando.setItems(rifs);
     }
-    public void setRifxRif(ObservableList<RifBibliografico> rifxrif){
+    public void setRifxRif(ObservableList<RifBibliografico> rifXrif){
         this.rifXrif = rifXrif;
     }
 
@@ -149,6 +149,7 @@ public class GestioneRimandoController implements Initializable {
             return rif;
         }));
 
+
         select.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<RifBibliografico, CheckBox>, ObservableValue<CheckBox>>() {
 
             @Override
@@ -158,18 +159,20 @@ public class GestioneRimandoController implements Initializable {
 
                 CheckBox checkBox = new CheckBox();
                 AtomicBoolean checked= new AtomicBoolean(false);
+
+
                 rifXrif.forEach(rifBibliografico -> {
-                    System.out.println("rifbiblio "+rifBibliografico.getIdRimando());
-                    System.out.println("rifRimando "+rif.getIdRimando());
-                    if(rifBibliografico.getIdRimando() == rif.getIdRimando()){
+                    if(rifBibliografico.getIdRimando().equals(rif.getId())){
                         checked.set(true);
+                        checkBox.selectedProperty().setValue(checked.get());
 
                     }
                 });
-                checkBox.selectedProperty().setValue(checked.get());
-
-
-
+                if(checkBox.selectedProperty().getValue().booleanValue()){
+                    if(!idRif.contains(rif.getId())){
+                        setIdRif(rif.getId());
+                    }
+                }
                 checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
                     public void changed(ObservableValue<? extends Boolean> ov,
                                         Boolean old_val, Boolean new_val) {
@@ -180,8 +183,6 @@ public class GestioneRimandoController implements Initializable {
                         }else{
                             idRif.remove(rif.getId());
                         }
-
-
                     }
                 });
 
@@ -204,12 +205,19 @@ public class GestioneRimandoController implements Initializable {
             try{
                 DbConnection db = DbConnection.getInstance();
                 RifBiblioDAO rif = new RifBiblioDAO(DbConnection.getInstance().getConnection());
-                idRif.forEach(integer -> {
+                rifXrif.forEach(rifBibliografico   ->{
+                    try {
+                        rif.deleteRimando(rifBibliografico.getIdRimando());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                idRif.forEach(rimando -> {
                     try {
 
-                        rif.postRifxRif(this.rif.getId(),integer);
-                        Stage currentScene = (Stage)((Node)event.getSource()).getScene().getWindow();
-                        currentScene.close();
+                        rif.postRifxRif(this.rif.getId(),rimando);
+
                     } catch (SQLException e) {
                         Stage currentScene = (Stage)((Node)event.getSource()).getScene().getWindow();
                         currentScene.close();
@@ -217,10 +225,19 @@ public class GestioneRimandoController implements Initializable {
                         e.printStackTrace();
                     }
                 });
+
+                Stage currentScene = (Stage)((Node)event.getSource()).getScene().getWindow();
+                currentScene.close();
             }catch (Exception err){
+
                 System.out.println("err>>"+err);
             }
 
+
         });
+    }
+
+    public void setIdRif(Integer id) {
+        this.idRif.add(id) ;
     }
 }
