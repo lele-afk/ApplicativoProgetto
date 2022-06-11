@@ -8,11 +8,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
-public class Scelta {
+public class CreaTipologia {
     public void start(Stage stage) throws IOException {
-        stage.setTitle("Scelta bibliografia");
+        stage.setTitle("Crea Tipologia");
 
-        URL urlGestione = getClass().getResource("/fxml/scelta.fxml");
+        URL urlGestione = getClass().getResource("/fxml/creazione-tipo.fxml");
         FXMLLoader loader = new FXMLLoader(urlGestione);
         Pane root = loader.load();
 

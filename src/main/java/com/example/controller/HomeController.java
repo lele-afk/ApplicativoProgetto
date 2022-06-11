@@ -1,7 +1,7 @@
 package com.example.controller;
 
 import com.example.view.Gestione;
-import com.example.view.Scelta;
+import com.example.view.CreaTipologia;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -30,19 +30,10 @@ public class HomeController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 Stage stage = new Stage();
-                Scelta scelta = new Scelta();
+                CreaTipologia creaTipologia = new CreaTipologia();
 
-
-                Stage currentScene = (Stage)((Node)event.getSource()).getScene().getWindow();
-                currentScene.close();
-                /*stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-                scene = new Scene(gestione);
-                System.out.println(scene);
-                System.out.println(stage);
-                stage.setScene(scene);
-                stage.show();*/
                 try {
-                    scelta.start(stage);
+                    creaTipologia.start(stage);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

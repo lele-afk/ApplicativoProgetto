@@ -1,6 +1,7 @@
 package com.example.modelDAOInterface;
 
 import com.example.model.RifBibliografico;
+import com.example.model.Tipologia;
 import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
@@ -14,4 +15,6 @@ public interface RifBiblioDAOI {
     public ObservableList<RifBibliografico> getRifxRif(Integer idRiferimento) throws SQLException;
     public ObservableList<RifBibliografico> setRimandi(Integer idRif) throws SQLException;
     public Integer deleteRimando(Integer idRif) throws SQLException ;
+    public Integer createTipologia(String nome) throws SQLException;
+    public ObservableList<Tipologia> getTipologia() throws SQLException ;
     }

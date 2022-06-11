@@ -2,6 +2,7 @@ package com.example.modelDAO;
 
 import com.example.model.Autori;
 import com.example.model.RifBibliografico;
+import com.example.model.Tipologia;
 import com.example.modelDAOInterface.RifBiblioDAOI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,8 +22,12 @@ public class RifBiblioDAO implements RifBiblioDAOI {
     private final PreparedStatement getRifxRif;
     private final PreparedStatement setRimandi;
     private final PreparedStatement deleteRimando;
+    private final PreparedStatement createTipologia;
+    private final PreparedStatement getTipologia;
     public RifBiblioDAO(Connection connection) throws SQLException {
         this.connection = connection;
+        getTipologia= connection.prepareStatement("SELECT * FROM public.\"Tipologia\"");
+        createTipologia = connection.prepareStatement("INSERT INTO public.\"Tipologia\" (nome) VALUES (?) RETURNING \"idTipologia\"");
         getRifxRif=connection.prepareStatement("SELECT * FROM \"Rimando\" INNER JOIN \"Riferimento\" ON \"Rimando\".\"idRimando\" = \"Riferimento\".\"idRiferimento\" WHERE \"Rimando\".\"idRiferimento\" = ?");
         postRifxRif = connection.prepareStatement("INSERT INTO \"Rimando\"(\"idRiferimento\", \"idRimando\") VALUES (?, ?) RETURNING \"id\"");
         getRif = connection.prepareStatement("SELECT * FROM \"Riferimento\" ");
@@ -45,7 +50,29 @@ public class RifBiblioDAO implements RifBiblioDAOI {
         }
         return listaRif;
     }
+    @Override
+    public ObservableList<Tipologia> getTipologia() throws SQLException {
+        ObservableList<Tipologia> listaTipo = FXCollections.observableArrayList();
+        ResultSet res = getTipologia.executeQuery();
+        while(res.next()){
+            //listaRif.add(new RifBibliografico(res.getInt("idRiferimento"),res.getString("titolo"),res.getString("data"), res.getString("url"), res.getString("doi"), res.getString("tipo"), res.getString("idUser"),res.getString("descrizione"), res.getInt("idRimando")/*,getRifXAutore(res.getInt("idAutore"))*/));
+            listaTipo.add(new Tipologia(res.getInt("idTipologia"),res.getString("nome")));
 
+        }
+        return listaTipo;
+    }
+
+    @Override
+    public Integer createTipologia(String nome) throws SQLException {
+        createTipologia.setString(1,nome);
+        ResultSet res = createTipologia.executeQuery();
+        Integer id=0;
+        while (res.next()){
+            id= res.getInt("idTipologia");
+        }
+
+        return id;
+    }
     @Override
     public Integer deleteRimando(Integer idRif) throws SQLException {
 
