@@ -3,9 +3,11 @@ package com.example.controller;
 import com.example.connection.DbConnection;
 import com.example.model.Autori;
 import com.example.model.RifBibliografico;
+import com.example.model.Tipologia;
 import com.example.modelDAO.AutoriDAO;
 import com.example.modelDAO.RifAutoriDAO;
 import com.example.modelDAO.RifBiblioDAO;
+import com.example.modelDAO.TipologiaDAO;
 import com.example.view.Home;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -70,6 +72,7 @@ public class GestioneController implements Initializable {
     private ObservableList<RifBibliografico> listSetRimandi;
     private ObservableList<WrapperCheck<Autori>> listaAutore;
     private ObservableList<Autori> rifXAutori;
+    private ObservableList<Tipologia> listaTipologia;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -77,9 +80,9 @@ public class GestioneController implements Initializable {
             DbConnection db = DbConnection.getInstance();
             RifBiblioDAO rifBiblioDAO = new RifBiblioDAO(DbConnection.getInstance().getConnection());
             AutoriDAO aut = new AutoriDAO(DbConnection.getInstance().getConnection());
+            TipologiaDAO tipologiaDAO= new TipologiaDAO(DbConnection.getInstance().getConnection());
+            listaTipologia = tipologiaDAO.getTipologia();
             listRif=rifBiblioDAO.getRif();
-
-
             listaAutore = aut.getAutori();
 
         }catch (Exception err){
@@ -159,6 +162,7 @@ public class GestioneController implements Initializable {
                     e.printStackTrace();
                 }
                 GestioneCreazioneController controller = loader.getController();
+                controller.setTipo(listaTipologia);
                 controller.setAutori(listaAutore);
                 stage.show();
 

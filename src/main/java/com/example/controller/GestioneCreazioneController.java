@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.connection.DbConnection;
 import com.example.model.Autori;
+import com.example.model.Tipologia;
 import com.example.modelDAO.RifAutoriDAO;
 import com.example.modelDAO.RifBiblioDAO;
 import javafx.collections.ObservableList;
@@ -36,7 +37,7 @@ public class GestioneCreazioneController implements Initializable {
     private TextField doi;
 
     @FXML
-    private TextField tipo;
+    private ComboBox<Tipologia> tipo;
 
     @FXML
     private DatePicker dataCreazione;
@@ -48,27 +49,48 @@ public class GestioneCreazioneController implements Initializable {
     private ComboBox<WrapperCheck<Autori>> autori;
 
     private ObservableList<Autori> listaAutore;
+    private ObservableList<Tipologia> listaTipologia;
 
     public void setAutori(ObservableList<WrapperCheck<Autori>> autori){
 
-
         this.autori.setItems(autori);
+
+    }
+    public void setTipo(ObservableList<Tipologia> tipologie){
+
+        this.tipo.setItems(tipologie);
 
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+// TO-DO ->>INSERIRE IN TIPO UNA SELECT CON I DATI DALLA GET(GET DA FARE)
 
-
-       /* this.autori.setButtonCell(new ListCell<WrapperCheck<Autori>>(){
-            @Override
-            protected void updateItem(WrapperCheck<Autori> item, boolean btl){
-                super.updateItem(item, btl);
-                if(item != null) {
-                    setText(item.getItem().getNome()+" "+item.getItem().getCognome());
+        tipo.setCellFactory(param -> {
+            ListCell<Tipologia> cell = new ListCell<>(){
+                protected void updateItem(Tipologia item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (!empty) {
+                        setText(item.getNome());
+                    }
                 }
+            };
+            return cell;
+        });
+
+        tipo.setButtonCell(new ListCell<Tipologia>() {
+            @Override
+            protected void updateItem(Tipologia t, boolean bln) {
+                super.updateItem(t, bln);
+                if (t != null) {
+                    setText(t.getNome());
+                } else {
+                    setText(null);
+                }
+
             }
-        });*/
+        });
+
         autori.setCellFactory( c -> {
             ListCell<WrapperCheck<Autori>> cell = new ListCell<>(){
                 @Override
@@ -102,6 +124,7 @@ public class GestioneCreazioneController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 Stage stage = new Stage();
+                System.out.println(doi.getText() == "");
                 autori.getItems().forEach( item ->
                         item.setCheck(false)
                 );
@@ -119,7 +142,7 @@ public class GestioneCreazioneController implements Initializable {
                     DbConnection db = DbConnection.getInstance();
                     RifBiblioDAO rif = new RifBiblioDAO(DbConnection.getInstance().getConnection());
                     RifAutoriDAO rifAutoriDAO = new RifAutoriDAO(DbConnection.getInstance().getConnection());
-                    Integer id = rif.postRif(titolo.getText(), url.getText(), doi.getText(),descrizione.getText(), String.valueOf(dataCreazione.getValue()),tipo.getText());
+                    Integer id = rif.postRif(titolo.getText(), url.getText(), doi.getText() == ""?null: doi.getText(), descrizione.getText(), String.valueOf(dataCreazione.getValue()),tipo.getValue().getIdTipologia());
                     autori.getItems().filtered( f -> f.getCheck()).forEach( item ->
                     {
                         try {

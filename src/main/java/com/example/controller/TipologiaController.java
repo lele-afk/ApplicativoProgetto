@@ -1,7 +1,7 @@
 package com.example.controller;
 
 import com.example.connection.DbConnection;
-import com.example.modelDAO.RifBiblioDAO;
+import com.example.modelDAO.TipologiaDAO;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -45,9 +45,9 @@ public class TipologiaController implements Initializable {
             public void handle(ActionEvent event) {
                 try {
                     DbConnection db = DbConnection.getInstance();
-                    RifBiblioDAO rif = new RifBiblioDAO(DbConnection.getInstance().getConnection());
+                    TipologiaDAO tipologiaDAO = new TipologiaDAO(DbConnection.getInstance().getConnection());
 
-                    Integer id = rif.createTipologia(tipo.getText());
+                    Integer id = tipologiaDAO.createTipologia(tipo.getText());
                     System.out.println(id);
                     Stage stage = new Stage();
                     Stage currentScene = (Stage)((Node)event.getSource()).getScene().getWindow();
