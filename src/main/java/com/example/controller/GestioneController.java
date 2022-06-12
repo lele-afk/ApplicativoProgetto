@@ -63,8 +63,10 @@ public class GestioneController implements Initializable {
     private TableColumn<RifBibliografico, String> doi;
 
     @FXML
-    private TableColumn azioni;
+    private TableColumn select;
 
+    @FXML
+    private TableColumn delete;
 
 
     private ObservableList<RifBibliografico> listRif;
@@ -195,7 +197,7 @@ public class GestioneController implements Initializable {
         }));
 
 
-        azioni.setCellFactory(ActionButtonTableCell.<RifBibliografico>forTableColumn("seleziona rimando",(RifBibliografico rif) -> {
+        select.setCellFactory(ActionButtonTableCell.<RifBibliografico>forTableColumn("seleziona rimando",(RifBibliografico rif) -> {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource(
                             "/fxml/gestione-rimando.fxml"
@@ -217,6 +219,26 @@ public class GestioneController implements Initializable {
             controller.setRifs(listSetRimandi);
             controller.setRifxRif(listRifxRif);
             controller.setAutoriRif(rifXAutori);
+            stage.show();
+            return rif;
+        }));
+
+        delete.setCellFactory(ActionButtonTableCell.<RifBibliografico>forTableColumn("Elimina Riferimento",(RifBibliografico rif) -> {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource(
+                            "/fxml/conferma-eliminazione.fxml"
+                    )
+            );
+            Stage stage = new Stage();
+            try {
+                stage.setScene(
+                        new Scene(loader.load())
+                );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            EliminazioneController controller = loader.getController();
+            controller.setId(rif.getId());
             stage.show();
             return rif;
         }));

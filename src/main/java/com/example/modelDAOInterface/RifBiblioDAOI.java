@@ -14,5 +14,8 @@ public interface RifBiblioDAOI {
     public ObservableList<RifBibliografico> getRifxRif(Integer idRiferimento) throws SQLException;
     public ObservableList<RifBibliografico> setRimandi(Integer idRif) throws SQLException;
     public Integer deleteRimando(Integer idRif) throws SQLException ;
+    public Integer deleteRiferimento(Integer idRif) throws SQLException;
+    public Integer deleteRifXAutore(Integer idRif) throws SQLException;
+    public Integer deleteRifXRimando(Integer idRif) throws SQLException;
 
     }

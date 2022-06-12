@@ -8,13 +8,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="539.0" prefWidth="916.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.GestioneController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="539.0" prefWidth="1056.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.GestioneController">
    <children>
 
-       <Button fx:id="back" layoutX="712.0" layoutY="21.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="68.0" text="Indietro" />
-       <Button fx:id="createRif" layoutX="797.0" layoutY="21.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="105.0" text="Crea Riferimento" />
+       <Button fx:id="back" layoutX="826.0" layoutY="21.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="68.0" text="Indietro" />
+       <Button fx:id="createRif" layoutX="934.0" layoutY="21.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="105.0" text="Crea Riferimento" />
 
-       <TableView fx:id="tableGestione" layoutX="1.0" layoutY="76.0" prefHeight="463.0" prefWidth="916.0">
+       <TableView fx:id="tableGestione" layoutX="-10.0" layoutY="76.0" prefHeight="463.0" prefWidth="1066.0">
         <columns>
           <TableColumn fx:id="tipo" prefWidth="75.0" text="Tipo" />
           <TableColumn fx:id="titolo" prefWidth="75.0" text="Titolo" />
@@ -22,9 +22,10 @@
             <TableColumn fx:id="descrizione" prefWidth="74.39997863769531" text="Descrizione" />
             <TableColumn fx:id="data" prefWidth="121.60003662109375" text="Data" />
             <TableColumn fx:id="indirizzoURL" prefWidth="123.20001220703125" text="URL" />
-            <TableColumn fx:id="rimando" prefWidth="74.4000244140625" text="Rimando" />
-            <TableColumn fx:id="doi" editable="false" prefWidth="133.59991455078125" resizable="false" sortable="false" text="DOI" />
-            <TableColumn fx:id="azioni" prefWidth="173.0" text="Azioni" />
+            <TableColumn fx:id="rimando" prefWidth="74.4000244140625" text="Rimandi" />
+            <TableColumn fx:id="doi" editable="false" prefWidth="96.79998779296875" resizable="false" sortable="false" text="DOI" />
+            <TableColumn fx:id="select" prefWidth="119.2000732421875" text="Seleziona Rimandi" />
+            <TableColumn  fx:id="delete" prefWidth="266.39996337890625" text="Elimina Riferimento" />
         </columns>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" />

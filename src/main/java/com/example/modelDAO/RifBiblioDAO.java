@@ -21,9 +21,15 @@ public class RifBiblioDAO implements RifBiblioDAOI {
     private final PreparedStatement getRifxRif;
     private final PreparedStatement setRimandi;
     private final PreparedStatement deleteRimando;
+    private final PreparedStatement deleteRif;
+    private final PreparedStatement deleteRifXAutore;
 
+    private final PreparedStatement deleteRifXRimando;
     public RifBiblioDAO(Connection connection) throws SQLException {
         this.connection = connection;
+        deleteRifXRimando = connection.prepareStatement("DELETE FROM public.\"Rimando\" WHERE \"idRiferimento\" = ? Returning \"idRiferimento\"");
+        deleteRifXAutore = connection.prepareStatement("DELETE FROM public.\"RiferimentoXAutore\" WHERE \"idRiferimento\" = ? Returning \"idRiferimento\"");
+        deleteRif=connection.prepareStatement("DELETE FROM public.\"Riferimento\" WHERE \"idRiferimento\" = ? Returning \"idRiferimento\"");
        getRifxRif=connection.prepareStatement("SELECT * FROM \"Rimando\" INNER JOIN \"Riferimento\" ON \"Rimando\".\"idRimando\" = \"Riferimento\".\"idRiferimento\" WHERE \"Rimando\".\"idRiferimento\" = ?");
         postRifxRif = connection.prepareStatement("INSERT INTO \"Rimando\"(\"idRiferimento\", \"idRimando\") VALUES (?, ?) RETURNING \"id\"");
         getRif = connection.prepareStatement("SELECT * FROM \"Riferimento\" INNER JOIN \"Tipologia\" ON \"Riferimento\".\"tipo\" = \"Tipologia\".\"idTipologia\"");
@@ -60,6 +66,46 @@ public class RifBiblioDAO implements RifBiblioDAOI {
         return id;
 
     }
+
+    @Override
+    public Integer deleteRiferimento(Integer idRif) throws SQLException {
+
+        deleteRif.setInt(1,idRif);
+        ResultSet res = deleteRif.executeQuery();
+        Integer id=0;
+        while (res.next()){
+            id= res.getInt("idRiferimento");
+        }
+        return id;
+    }
+
+    @Override
+    public Integer deleteRifXAutore(Integer idRif) throws SQLException {
+
+        deleteRifXAutore.setInt(1,idRif);
+        ResultSet res = deleteRifXAutore.executeQuery();
+        Integer id=0;
+        while (res.next()){
+            id= res.getInt("idRiferimento");
+        }
+
+        return id;
+
+    }
+    @Override
+    public Integer deleteRifXRimando(Integer idRif) throws SQLException {
+
+        deleteRifXRimando.setInt(1,idRif);
+        ResultSet res = deleteRifXRimando.executeQuery();
+        Integer id=0;
+        while (res.next()){
+            id= res.getInt("idRiferimento");
+        }
+
+        return id;
+
+    }
+
     @Override
     public ObservableList<RifBibliografico> setRimandi(Integer idRif) throws SQLException {
         ObservableList<RifBibliografico> listaRif = FXCollections.observableArrayList();
