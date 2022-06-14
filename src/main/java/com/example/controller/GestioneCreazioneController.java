@@ -124,7 +124,7 @@ public class GestioneCreazioneController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 Stage stage = new Stage();
-                System.out.println(doi.getText() == "");
+
                 autori.getItems().forEach( item ->
                         item.setCheck(false)
                 );
@@ -150,7 +150,8 @@ public class GestioneCreazioneController implements Initializable {
                             rifAutoriDAO.postRifXAutori(item.getItem().getCodiceUnivoco(),id);
                             item.setCheck(false);
                         } catch (SQLException e) {
-                            e.printStackTrace();
+                            PopUpException popUp = new PopUpException(e.getMessage());
+
                         }
                     }
                     );
@@ -160,7 +161,8 @@ public class GestioneCreazioneController implements Initializable {
                     currentScene.close();
                 }catch (Exception err){
 
-                    System.out.println("err>>"+err.getMessage());
+                    PopUpException popUp = new PopUpException(err.getMessage());
+
                 }
             }
         });

@@ -51,10 +51,11 @@ public class EliminazioneController implements Initializable {
                 Stage currentScene = (Stage)((Node)event.getSource()).getScene().getWindow();
                 currentScene.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+
                 Stage stage = new Stage();
                 Stage currentScene = (Stage)((Node)event.getSource()).getScene().getWindow();
                 currentScene.close();
+                PopUpException popUp = new PopUpException(e.getMessage());
 
             }
         });

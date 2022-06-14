@@ -88,8 +88,7 @@ public class GestioneController implements Initializable {
             listaAutore = aut.getAutori();
 
         }catch (Exception err){
-            System.out.println(err.getMessage());
-            err.printStackTrace();
+            PopUpException popUp = new PopUpException(err.getMessage());
         }
 
         tipo.setCellValueFactory(new PropertyValueFactory<RifBibliografico, String>("tipo"));
@@ -114,7 +113,8 @@ public class GestioneController implements Initializable {
                         new Scene(loader.load())
                 );
             } catch (IOException | SQLException e) {
-                e.printStackTrace();
+                PopUpException popUp = new PopUpException(e.getMessage());
+
             }
             GestioneAutoriController controller = loader.getController();
 
@@ -139,7 +139,7 @@ public class GestioneController implements Initializable {
                         new Scene(loader.load())
                 );
             } catch (IOException e) {
-                e.printStackTrace();
+                PopUpException popUp = new PopUpException(e.getMessage());
             }
             GestioneDescrizioneController controller = loader.getController();
             controller.setLabel(rif.getDescrizione());
@@ -161,7 +161,8 @@ public class GestioneController implements Initializable {
                             new Scene(loader.load())
                     );
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    PopUpException popUp = new PopUpException(e.getMessage());
+
                 }
                 GestioneCreazioneController controller = loader.getController();
                 controller.setTipo(listaTipologia);
@@ -188,7 +189,8 @@ public class GestioneController implements Initializable {
                         new Scene(loader.load())
                 );
             } catch (IOException | SQLException e) {
-                e.printStackTrace();
+                PopUpException popUp = new PopUpException(e.getMessage());
+
             }
             GestioneViewRimandoController controller = loader.getController();
             controller.setRifs(listRifxRif);
@@ -212,7 +214,8 @@ public class GestioneController implements Initializable {
                         new Scene(loader.load())
                 );
             } catch (IOException | SQLException e) {
-                e.printStackTrace();
+                PopUpException popUp = new PopUpException(e.getMessage());
+
             }
             GestioneRimandoController controller = loader.getController();
             controller.setRif(rif);
@@ -235,7 +238,8 @@ public class GestioneController implements Initializable {
                         new Scene(loader.load())
                 );
             } catch (IOException e) {
-                e.printStackTrace();
+                PopUpException popUp = new PopUpException(e.getMessage());
+
             }
             EliminazioneController controller = loader.getController();
             controller.setId(rif.getId());
@@ -262,7 +266,8 @@ public class GestioneController implements Initializable {
                 try {
                     home.start(stage);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    PopUpException popUp = new PopUpException(e.getMessage());
+
                 }
             }
         });

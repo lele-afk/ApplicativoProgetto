@@ -54,7 +54,10 @@ public class TipologiaController implements Initializable {
                     currentScene.close();
                 }catch (Exception err){
 
-                    System.out.println("err>>"+err.getMessage());
+                    Stage stage = new Stage();
+                    Stage currentScene = (Stage)((Node)event.getSource()).getScene().getWindow();
+                    currentScene.close();
+                    PopUpException popUp = new PopUpException(err.getMessage());
                 }
             }
         });

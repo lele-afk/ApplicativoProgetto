@@ -89,7 +89,7 @@ public class GestioneViewRimandoController implements Initializable {
                         new Scene(loader.load())
                 );
             } catch (IOException | SQLException e) {
-                e.printStackTrace();
+                PopUpException popUp = new PopUpException(e.getMessage());
             }
             GestioneAutoriController controller = loader.getController();
 
@@ -114,7 +114,7 @@ public class GestioneViewRimandoController implements Initializable {
                         new Scene(loader.load())
                 );
             } catch (IOException e) {
-                e.printStackTrace();
+                PopUpException popUp = new PopUpException(e.getMessage());
             }
             GestioneDescrizioneController controller = loader.getController();
             controller.setLabel(rif.getDescrizione());

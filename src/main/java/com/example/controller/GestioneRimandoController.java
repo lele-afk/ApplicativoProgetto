@@ -116,7 +116,7 @@ public class GestioneRimandoController implements Initializable {
                         new Scene(loader.load())
                 );
             } catch (IOException | SQLException e) {
-                e.printStackTrace();
+                PopUpException popUp = new PopUpException(e.getMessage());
             }
             GestioneAutoriController controller = loader.getController();
 
@@ -141,7 +141,7 @@ public class GestioneRimandoController implements Initializable {
                         new Scene(loader.load())
                 );
             } catch (IOException e) {
-                e.printStackTrace();
+                PopUpException popUp = new PopUpException(e.getMessage());
             }
             GestioneDescrizioneController controller = loader.getController();
             controller.setLabel(rif.getDescrizione());
@@ -209,7 +209,7 @@ public class GestioneRimandoController implements Initializable {
                     try {
                         rif.deleteRimando(rifBibliografico.getIdRimando());
                     } catch (SQLException e) {
-                        e.printStackTrace();
+                        PopUpException popUp = new PopUpException(e.getMessage());
                     }
                 });
 
@@ -221,8 +221,7 @@ public class GestioneRimandoController implements Initializable {
                     } catch (SQLException e) {
                         Stage currentScene = (Stage)((Node)event.getSource()).getScene().getWindow();
                         currentScene.close();
-                        System.out.println(e);
-                        e.printStackTrace();
+                        PopUpException popUp = new PopUpException(e.getMessage());
                     }
                 });
 
@@ -230,7 +229,7 @@ public class GestioneRimandoController implements Initializable {
                 currentScene.close();
             }catch (Exception err){
 
-                System.out.println("err>>"+err);
+                PopUpException popUp = new PopUpException(err.getMessage());
             }
 
 
