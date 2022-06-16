@@ -22,7 +22,7 @@ public class UtenteDAO implements UtenteDAOI {
         ResultSet res = getUtente.executeQuery();
         Utente utente = null;
         while(res.next()){
-            utente=  new Utente(res.getString("nome"),res.getString("cognome"),res.getString("idUser") );
+            utente=  new Utente(res.getString("nome"),res.getString("cognome"),res.getInt("idUser") );
         }
         return utente;
 

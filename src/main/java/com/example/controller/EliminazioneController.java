@@ -46,7 +46,7 @@ public class EliminazioneController implements Initializable {
                 rifBiblioDAO.deleteRifXRimando(id);
                 rifBiblioDAO.deleteRimando(id);
                 rifBiblioDAO.deleteRiferimento(id);
-                rifBiblioDAO.getRif();
+
                 Stage stage = new Stage();
                 Stage currentScene = (Stage)((Node)event.getSource()).getScene().getWindow();
                 currentScene.close();

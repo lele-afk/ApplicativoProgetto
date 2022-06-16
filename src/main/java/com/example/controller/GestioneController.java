@@ -4,6 +4,7 @@ import com.example.connection.DbConnection;
 import com.example.model.Autori;
 import com.example.model.RifBibliografico;
 import com.example.model.Tipologia;
+import com.example.model.Utente;
 import com.example.modelDAO.AutoriDAO;
 import com.example.modelDAO.RifAutoriDAO;
 import com.example.modelDAO.RifBiblioDAO;
@@ -80,11 +81,12 @@ public class GestioneController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             DbConnection db = DbConnection.getInstance();
+            Utente utente = new Utente();
             RifBiblioDAO rifBiblioDAO = new RifBiblioDAO(DbConnection.getInstance().getConnection());
             AutoriDAO aut = new AutoriDAO(DbConnection.getInstance().getConnection());
             TipologiaDAO tipologiaDAO= new TipologiaDAO(DbConnection.getInstance().getConnection());
             listaTipologia = tipologiaDAO.getTipologia();
-            listRif=rifBiblioDAO.getRif();
+            listRif=rifBiblioDAO.getRif(utente.getCodiceUnivoco());
             listaAutore = aut.getAutori();
 
         }catch (Exception err){

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane prefHeight="281.0" prefWidth="607.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.LoginController">
+   <children>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="272.0" prefWidth="600.0" />
+      <DialogPane prefHeight="355.0" prefWidth="607.0">
+         <header>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Effettua Login" textAlignment="CENTER" wrappingWidth="596.8320922851562">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+               <stroke>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </stroke>
+            </Text>
+         </header>
+      </DialogPane>
+      <AnchorPane  prefHeight="440.0" prefWidth="607.0">
+         <children>
+            <Text layoutX="248.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" wrappingWidth="110.39999999999986">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Text>
+            <TextField fx:id="cognome" layoutX="218.0" layoutY="149.0" prefHeight="26.0" prefWidth="170.0" promptText="Inserisci cognome" AnchorPane.bottomAnchor="106.20000000000002" />
+            <Button fx:id="login" layoutX="248.0" layoutY="217.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="110.0" text="Login" />
+            <Text layoutX="264.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cognome" wrappingWidth="77.60001220703111">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Text>
+            <TextField fx:id="username" layoutX="218.0" layoutY="77.0" prefHeight="26.0" prefWidth="170.0" promptText="Nome utente" />
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

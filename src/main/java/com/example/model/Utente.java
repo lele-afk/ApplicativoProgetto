@@ -1,15 +1,13 @@
 package com.example.model;
 
-import java.util.ArrayList;
-
 public class Utente {
     private String nome;
     private String cognome;
-    private String codiceUnivoco;
-    //assaciazione utente con bibliografia
-    private ArrayList<RifBibliografico> assBiblioUtente = new ArrayList<>();
+    private static Integer codiceUnivoco;
 
-    public Utente(String nome, String cognome, String codiceUnivoco) {
+
+
+    public Utente(String nome, String cognome, Integer codiceUnivoco) {
         this.nome = nome;
         this.cognome = cognome;
         this.codiceUnivoco = codiceUnivoco;
@@ -34,11 +32,11 @@ public class Utente {
         this.cognome = cognome;
     }
 
-    public String getCodiceUnivoco() {
+    public Integer getCodiceUnivoco() {
         return codiceUnivoco;
     }
 
-    public void setCodiceUnivoco(String codiceUnivoco) {
+    public void setCodiceUnivoco(Integer codiceUnivoco) {
         this.codiceUnivoco = codiceUnivoco;
     }
 }

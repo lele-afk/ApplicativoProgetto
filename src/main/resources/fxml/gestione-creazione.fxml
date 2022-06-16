@@ -45,21 +45,21 @@
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Text layoutX="17.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Titolo" wrappingWidth="93.18305015563965" />
-                  <TextField fx:id="titolo" layoutX="13.0" layoutY="26.0" promptText="Inserisci Titolo" />
+                  <TextField fx:id="titolo" layoutX="13.0" layoutY="26.0" prefHeight="26.0" prefWidth="247.0" promptText="Inserisci Titolo" />
                   <Text layoutX="17.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo" wrappingWidth="93.18305015563965" />
                   <Text layoutX="17.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Autori" wrappingWidth="93.18305015563965" />
                   <Text layoutX="17.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="URL" wrappingWidth="93.18305015563965" />
-                  <TextField fx:id="url" layoutX="14.0" layoutY="237.0" promptText="Inserisci URL" />
+                  <TextField fx:id="url" layoutX="17.0" layoutY="237.0" prefHeight="26.0" prefWidth="240.0" promptText="Inserisci URL" />
                   <Text layoutX="17.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DOI" wrappingWidth="93.18305015563965" />
-                  <TextField fx:id="doi" layoutX="14.0" layoutY="310.0" promptText="Inserisci DOI" />
+                  <TextField fx:id="doi" layoutX="14.0" layoutY="310.0" prefHeight="26.0" prefWidth="244.0" promptText="Inserisci DOI" />
                   <Text layoutX="383.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data" wrappingWidth="93.18305015563965" />
                   <DatePicker fx:id="dataCreazione" layoutX="383.0" layoutY="39.0" promptText="Seleziona data" />
                   <Text layoutX="383.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descrizione" wrappingWidth="93.18305015563965" />
                   <TextArea fx:id="descrizione" layoutX="383.0" layoutY="115.0" prefHeight="135.0" prefWidth="200.0" promptText="Inserisci una descrizione per la bibliografia" />
                   <Button fx:id="back" layoutX="365.0" layoutY="292.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="98.0" style="-fx-background-color: red;" text="Annulla" textAlignment="CENTER" textFill="#262323" />
-                  <ComboBox fx:id="autori" layoutX="13.0" layoutY="165.0" prefWidth="150.0" />
+                  <ComboBox fx:id="autori" layoutX="13.0" layoutY="165.0" prefHeight="26.0" prefWidth="241.0" promptText="Seleziona Autore" />
                   <Button fx:id="creazione" layoutX="483.0" layoutY="292.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="110.0" text="Crea" />
-                  <ComboBox fx:id="tipo" layoutX="12.0" layoutY="91.0" prefWidth="150.0" promptText="Seleziona tipo" />
+                  <ComboBox fx:id="tipo" layoutX="12.0" layoutY="91.0" prefHeight="26.0" prefWidth="245.0" promptText="Seleziona tipo" />
                </children>
             </AnchorPane>
          </content>

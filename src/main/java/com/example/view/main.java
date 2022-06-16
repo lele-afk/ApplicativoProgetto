@@ -7,16 +7,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class main extends Application {
-   /* private Home home = new Home();
-    @Override
-    public void start(Stage stage) throws IOException {
-        home.start(home);
 
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }*/
    public static void main(String[] args) {
        launch(args);
    }
@@ -27,7 +18,7 @@ public class main extends Application {
 
 
 
-        Home startApp  = new Home();
+        Login startApp  = new Login();
         startApp.start(primaryStage);
         //primaryStage.setScene(new Scene(root));/primaryStage.show();
     }

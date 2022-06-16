@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.connection.DbConnection;
 import com.example.model.Autori;
 import com.example.model.Tipologia;
+import com.example.model.Utente;
 import com.example.modelDAO.RifAutoriDAO;
 import com.example.modelDAO.RifBiblioDAO;
 import javafx.collections.ObservableList;
@@ -109,6 +110,7 @@ public class GestioneCreazioneController implements Initializable {
                 cell.getItem().checkProperty().set(!cell.getItem().checkProperty().get());
                 StringBuilder sb = new StringBuilder();
                 autori.getItems().filtered( f-> f!=null).filtered( f-> f.getCheck()).forEach( p -> {
+
                     sb.append("; "+p.getItem().getNome()+" "+p.getItem().getCognome());
                 });
                 final String string = sb.toString();
@@ -142,7 +144,8 @@ public class GestioneCreazioneController implements Initializable {
                     DbConnection db = DbConnection.getInstance();
                     RifBiblioDAO rif = new RifBiblioDAO(DbConnection.getInstance().getConnection());
                     RifAutoriDAO rifAutoriDAO = new RifAutoriDAO(DbConnection.getInstance().getConnection());
-                    Integer id = rif.postRif(titolo.getText(), url.getText(), doi.getText() == ""?null: doi.getText(), descrizione.getText(), String.valueOf(dataCreazione.getValue()),tipo.getValue().getIdTipologia());
+                    Utente utente = new Utente();
+                    Integer id = rif.postRif(titolo.getText(), url.getText(), doi.getText() == ""?null: doi.getText(), descrizione.getText(), String.valueOf(dataCreazione.getValue()),tipo.getValue().getIdTipologia(), utente.getCodiceUnivoco());
                     autori.getItems().filtered( f -> f.getCheck()).forEach( item ->
                     {
                         try {

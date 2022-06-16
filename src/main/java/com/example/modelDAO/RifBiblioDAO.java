@@ -32,7 +32,7 @@ public class RifBiblioDAO implements RifBiblioDAOI {
         deleteRif=connection.prepareStatement("DELETE FROM public.\"Riferimento\" WHERE \"idRiferimento\" = ? Returning \"idRiferimento\"");
        getRifxRif=connection.prepareStatement("SELECT * FROM \"Rimando\" INNER JOIN \"Riferimento\" ON \"Rimando\".\"idRimando\" = \"Riferimento\".\"idRiferimento\" WHERE \"Rimando\".\"idRiferimento\" = ?");
         postRifxRif = connection.prepareStatement("INSERT INTO \"Rimando\"(\"idRiferimento\", \"idRimando\") VALUES (?, ?) RETURNING \"id\"");
-        getRif = connection.prepareStatement("SELECT * FROM \"Riferimento\" INNER JOIN \"Tipologia\" ON \"Riferimento\".\"tipo\" = \"Tipologia\".\"idTipologia\"");
+        getRif = connection.prepareStatement("SELECT * FROM \"Riferimento\" INNER JOIN \"Tipologia\" ON \"Riferimento\".\"tipo\" = \"Tipologia\".\"idTipologia\" WHERE \"idUser\"= ?");
         setRimandi = connection.prepareStatement("SELECT * FROM \"Riferimento\" WHERE \"idRiferimento\" != ? ");
         deleteRimando = connection.prepareStatement("DELETE FROM public.\"Rimando\" WHERE \"idRimando\" = ? Returning \"idRimando\"");
         // getRif = connection.prepareStatement("SELECT DISTINCT  * FROM \"Riferimento\" FULL JOIN \"Rimando\" ON \"Rimando\".\"idRiferimento\" = \"Riferimento\".\"idRiferimento\"");
@@ -42,8 +42,9 @@ public class RifBiblioDAO implements RifBiblioDAOI {
     }
 
     @Override
-    public ObservableList<RifBibliografico> getRif() throws SQLException {
+    public ObservableList<RifBibliografico> getRif(Integer idUser) throws SQLException {
         ObservableList<RifBibliografico> listaRif = FXCollections.observableArrayList();
+        getRif.setInt(1,idUser);
         ResultSet res = getRif.executeQuery();
         while(res.next()){
             //listaRif.add(new RifBibliografico(res.getInt("idRiferimento"),res.getString("titolo"),res.getString("data"), res.getString("url"), res.getString("doi"), res.getString("tipo"), res.getString("idUser"),res.getString("descrizione"), res.getInt("idRimando")/*,getRifXAutore(res.getInt("idAutore"))*/));
@@ -134,12 +135,12 @@ public class RifBiblioDAO implements RifBiblioDAOI {
     }
 
     @Override
-    public Integer postRif(String titolo, String url, String doi, String descrizione, String dataCreazione , Integer tipo) throws SQLException {
+    public Integer postRif(String titolo, String url, String doi, String descrizione, String dataCreazione , Integer tipo, Integer idUser) throws SQLException {
         postRif.setString(1,titolo);
         postRif.setString(2, dataCreazione.toString());
         postRif.setString(3,descrizione);
         postRif.setString(4,doi);
-        postRif.setInt(6,1);
+        postRif.setInt(6,idUser);
         postRif.setString(5,url);
         postRif.setInt(7,tipo);
         ResultSet res= postRif.executeQuery();
