@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.connection.DbConnection;
 import com.example.model.Autori;
+import com.example.model.RifBibliografico;
 import com.example.model.Tipologia;
 import com.example.model.Utente;
 import com.example.modelDAO.RifAutoriDAO;
@@ -51,7 +52,7 @@ public class GestioneCreazioneController implements Initializable {
 
     private ObservableList<Autori> listaAutore;
     private ObservableList<Tipologia> listaTipologia;
-
+    private TableView<RifBibliografico> tableView;
     public void setAutori(ObservableList<WrapperCheck<Autori>> autori){
 
         this.autori.setItems(autori);
@@ -63,15 +64,19 @@ public class GestioneCreazioneController implements Initializable {
 
     }
 
+    public void setTable(TableView<RifBibliografico> table){
+        tableView = table;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-// TO-DO ->>INSERIRE IN TIPO UNA SELECT CON I DATI DALLA GET(GET DA FARE)
 
         tipo.setCellFactory(param -> {
             ListCell<Tipologia> cell = new ListCell<>(){
                 protected void updateItem(Tipologia item, boolean empty) {
                     super.updateItem(item, empty);
                     if (!empty) {
+                        url.setDisable(item.getNome() == "Contenuto digitale");
                         setText(item.getNome());
                     }
                 }
@@ -84,6 +89,7 @@ public class GestioneCreazioneController implements Initializable {
             protected void updateItem(Tipologia t, boolean bln) {
                 super.updateItem(t, bln);
                 if (t != null) {
+                    url.setDisable(t.getNome() == "Contenuto digitale");
                     setText(t.getNome());
                 } else {
                     setText(null);
@@ -143,6 +149,7 @@ public class GestioneCreazioneController implements Initializable {
                 try {
                     DbConnection db = DbConnection.getInstance();
                     RifBiblioDAO rif = new RifBiblioDAO(DbConnection.getInstance().getConnection());
+
                     RifAutoriDAO rifAutoriDAO = new RifAutoriDAO(DbConnection.getInstance().getConnection());
                     Utente utente = new Utente();
                     Integer id = rif.postRif(titolo.getText(), url.getText(), doi.getText() == ""?null: doi.getText(), descrizione.getText(), String.valueOf(dataCreazione.getValue()),tipo.getValue().getIdTipologia(), utente.getCodiceUnivoco());
@@ -151,8 +158,10 @@ public class GestioneCreazioneController implements Initializable {
                         try {
 
                             rifAutoriDAO.postRifXAutori(item.getItem().getCodiceUnivoco(),id);
+                            tableView.setItems(rif.getRif(utente.getCodiceUnivoco()));
                             item.setCheck(false);
                         } catch (SQLException e) {
+                            e.printStackTrace();
                             PopUpException popUp = new PopUpException(e.getMessage());
 
                         }
@@ -163,7 +172,7 @@ public class GestioneCreazioneController implements Initializable {
                     Stage currentScene = (Stage)((Node)event.getSource()).getScene().getWindow();
                     currentScene.close();
                 }catch (Exception err){
-
+                    err.printStackTrace();
                     PopUpException popUp = new PopUpException(err.getMessage());
 
                 }

@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -37,7 +38,7 @@ public class GestioneController implements Initializable {
     private Button createRif;
 
     @FXML
-    private TableView<RifBibliografico> tableGestione;
+    private TableView<RifBibliografico> tableGestione = new TableView<>();
 
     @FXML
     private TableColumn<RifBibliografico, String> tipo;
@@ -69,6 +70,11 @@ public class GestioneController implements Initializable {
     @FXML
     private TableColumn delete;
 
+    @FXML
+    private TextField filter;
+
+    @FXML
+    private Button search;
 
     private ObservableList<RifBibliografico> listRif;
     private ObservableList<RifBibliografico> listRifxRif;
@@ -76,6 +82,8 @@ public class GestioneController implements Initializable {
     private ObservableList<WrapperCheck<Autori>> listaAutore;
     private ObservableList<Autori> rifXAutori;
     private ObservableList<Tipologia> listaTipologia;
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -93,6 +101,10 @@ public class GestioneController implements Initializable {
             PopUpException popUp = new PopUpException(err.getMessage());
         }
 
+
+       /* Image img = new Image("img/kisspng-computer-icons-magnifying-glass-magnifier-icon-pack-5ada52d6937326.175116051524257494604.png");
+        ImageView view = new ImageView(img);
+        search.setGraphic(view);*/
         tipo.setCellValueFactory(new PropertyValueFactory<RifBibliografico, String>("tipo"));
         titolo.setCellValueFactory(new PropertyValueFactory<RifBibliografico, String>("titolo"));
         autori.setCellFactory(ActionButtonTableCell.<RifBibliografico>forTableColumn("Autori",(RifBibliografico rif) -> {
@@ -169,6 +181,7 @@ public class GestioneController implements Initializable {
                 GestioneCreazioneController controller = loader.getController();
                 controller.setTipo(listaTipologia);
                 controller.setAutori(listaAutore);
+                controller.setTable(tableGestione);
                 stage.show();
 
             }
@@ -245,11 +258,14 @@ public class GestioneController implements Initializable {
             }
             EliminazioneController controller = loader.getController();
             controller.setId(rif.getId());
+            controller.setTable(tableGestione);
             stage.show();
             return rif;
         }));
 
         tableGestione.setItems(listRif);
+
+
 
          back.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -274,4 +290,6 @@ public class GestioneController implements Initializable {
             }
         });
     }
+
+
 }
