@@ -84,7 +84,6 @@ public class GestioneController implements Initializable {
     private ObservableList<Tipologia> listaTipologia;
 
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -92,12 +91,12 @@ public class GestioneController implements Initializable {
             Utente utente = new Utente();
             RifBiblioDAO rifBiblioDAO = new RifBiblioDAO(DbConnection.getInstance().getConnection());
             AutoriDAO aut = new AutoriDAO(DbConnection.getInstance().getConnection());
-            TipologiaDAO tipologiaDAO= new TipologiaDAO(DbConnection.getInstance().getConnection());
+            TipologiaDAO tipologiaDAO = new TipologiaDAO(DbConnection.getInstance().getConnection());
             listaTipologia = tipologiaDAO.getTipologia();
-            listRif=rifBiblioDAO.getRif(utente.getCodiceUnivoco());
+            listRif = rifBiblioDAO.getRif(utente.getCodiceUnivoco());
             listaAutore = aut.getAutori();
 
-        }catch (Exception err){
+        } catch (Exception err) {
             PopUpException popUp = new PopUpException(err.getMessage());
         }
 
@@ -105,21 +104,47 @@ public class GestioneController implements Initializable {
        /* Image img = new Image("img/kisspng-computer-icons-magnifying-glass-magnifier-icon-pack-5ada52d6937326.175116051524257494604.png");
         ImageView view = new ImageView(img);
         search.setGraphic(view);*/
+        search.setOnMouseClicked(event -> {
+            if (filter.getText() == "") {
+                search.setText("Cerca");
+            } else {
+                search.setText("Reset");
+
+
+            }
+        });
+        search.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    RifBiblioDAO rifBiblioDAO = new RifBiblioDAO(DbConnection.getInstance().getConnection());
+                    Utente utente = new Utente();
+                    if (filter.getText() == "") {
+                        tableGestione.setItems(rifBiblioDAO.getRif(utente.getCodiceUnivoco()));
+                    } else {
+                        tableGestione.setItems(rifBiblioDAO.getAdvanceRif(utente.getCodiceUnivoco(), filter.getText()));
+
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         tipo.setCellValueFactory(new PropertyValueFactory<RifBibliografico, String>("tipo"));
         titolo.setCellValueFactory(new PropertyValueFactory<RifBibliografico, String>("titolo"));
-        autori.setCellFactory(ActionButtonTableCell.<RifBibliografico>forTableColumn("Autori",(RifBibliografico rif) -> {
+        autori.setCellFactory(ActionButtonTableCell.<RifBibliografico>forTableColumn("Autori", (RifBibliografico rif) -> {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource(
                             "/fxml/gestione-autori.fxml"
                     )
             );
             Stage stage = new Stage();
-            String contentAutori="";
+            String contentAutori = "";
             try {
                 RifAutoriDAO rifAut = new RifAutoriDAO(DbConnection.getInstance().getConnection());
                 rifXAutori = rifAut.getRifXAutori(rif.getId());
-                for(Integer i=0; i<rifXAutori.size();i++){
-                    contentAutori =contentAutori+ "Autore "+(i+1)+" "+rifXAutori.get(i).getNome()+" "+rifXAutori.get(i).getCognome()+"\n";
+                for (Integer i = 0; i < rifXAutori.size(); i++) {
+                    contentAutori = contentAutori + "Autore " + (i + 1) + " " + rifXAutori.get(i).getNome() + " " + rifXAutori.get(i).getCognome() + "\n";
                 }
 
 
@@ -141,7 +166,7 @@ public class GestioneController implements Initializable {
         indirizzoURL.setCellValueFactory(new PropertyValueFactory<RifBibliografico, String>("URL"));
         doi.setCellValueFactory(new PropertyValueFactory<RifBibliografico, String>("DOI"));
 
-        descrizione.setCellFactory(ActionButtonTableCell.<RifBibliografico>forTableColumn("Info",(RifBibliografico rif) -> {
+        descrizione.setCellFactory(ActionButtonTableCell.<RifBibliografico>forTableColumn("Info", (RifBibliografico rif) -> {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource(
                             "/fxml/gestione-descrizione.fxml"
@@ -187,7 +212,7 @@ public class GestioneController implements Initializable {
             }
         });
 
-        rimando.setCellFactory(ActionButtonTableCell.<RifBibliografico>forTableColumn("rimandi",(RifBibliografico rif) -> {
+        rimando.setCellFactory(ActionButtonTableCell.<RifBibliografico>forTableColumn("rimandi", (RifBibliografico rif) -> {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource(
                             "/fxml/gestione-viewRimando.fxml"
@@ -199,7 +224,7 @@ public class GestioneController implements Initializable {
                 RifBiblioDAO rifBiblioDAO = new RifBiblioDAO(DbConnection.getInstance().getConnection());
 
                 //ELIMINARE DUPLICATI IN TABELLA E FAR FUNZIONARE LA CHECKBOX
-                listRifxRif=rifBiblioDAO.getRifxRif(rif.getId());
+                listRifxRif = rifBiblioDAO.getRifxRif(rif.getId());
                 stage.setScene(
                         new Scene(loader.load())
                 );
@@ -214,7 +239,7 @@ public class GestioneController implements Initializable {
         }));
 
 
-        select.setCellFactory(ActionButtonTableCell.<RifBibliografico>forTableColumn("seleziona rimando",(RifBibliografico rif) -> {
+        select.setCellFactory(ActionButtonTableCell.<RifBibliografico>forTableColumn("seleziona rimando", (RifBibliografico rif) -> {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource(
                             "/fxml/gestione-rimando.fxml"
@@ -223,8 +248,8 @@ public class GestioneController implements Initializable {
             Stage stage = new Stage();
             try {
                 RifBiblioDAO rifBiblioDAO = new RifBiblioDAO(DbConnection.getInstance().getConnection());
-                listSetRimandi=rifBiblioDAO.setRimandi(rif.getId());
-                listRifxRif=rifBiblioDAO.getRifxRif(rif.getId());
+                listSetRimandi = rifBiblioDAO.setRimandi(rif.getId());
+                listRifxRif = rifBiblioDAO.getRifxRif(rif.getId());
                 stage.setScene(
                         new Scene(loader.load())
                 );
@@ -241,7 +266,7 @@ public class GestioneController implements Initializable {
             return rif;
         }));
 
-        delete.setCellFactory(ActionButtonTableCell.<RifBibliografico>forTableColumn("Elimina Riferimento",(RifBibliografico rif) -> {
+        delete.setCellFactory(ActionButtonTableCell.<RifBibliografico>forTableColumn("Elimina Riferimento", (RifBibliografico rif) -> {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource(
                             "/fxml/conferma-eliminazione.fxml"
@@ -266,14 +291,13 @@ public class GestioneController implements Initializable {
         tableGestione.setItems(listRif);
 
 
-
-         back.setOnAction(new EventHandler<ActionEvent>() {
+        back.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 Stage stage = new Stage();
-                Home home= new Home();
+                Home home = new Home();
 
-                Stage currentScene = (Stage)((Node)event.getSource()).getScene().getWindow();
+                Stage currentScene = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currentScene.close();
                 /*stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
                 scene = new Scene(gestione);

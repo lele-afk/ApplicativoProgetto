@@ -23,14 +23,16 @@ public class RifBiblioDAO implements RifBiblioDAOI {
     private final PreparedStatement deleteRimando;
     private final PreparedStatement deleteRif;
     private final PreparedStatement deleteRifXAutore;
-
     private final PreparedStatement deleteRifXRimando;
+    private final PreparedStatement getAdvaceRif;
+
     public RifBiblioDAO(Connection connection) throws SQLException {
         this.connection = connection;
+        getAdvaceRif= connection.prepareStatement("SELECT * FROM  \"Riferimento\" INNER JOIN \"Tipologia\" ON \"Riferimento\".\"tipo\" = \"Tipologia\".\"idTipologia\" WHERE \"idUser\"= ? AND \"titolo\"= ?");
         deleteRifXRimando = connection.prepareStatement("DELETE FROM public.\"Rimando\" WHERE \"idRiferimento\" = ? Returning \"idRiferimento\"");
         deleteRifXAutore = connection.prepareStatement("DELETE FROM public.\"RiferimentoXAutore\" WHERE \"idRiferimento\" = ? Returning \"idRiferimento\"");
         deleteRif=connection.prepareStatement("DELETE FROM public.\"Riferimento\" WHERE \"idRiferimento\" = ? Returning \"idRiferimento\"");
-       getRifxRif=connection.prepareStatement("SELECT * FROM \"Rimando\" INNER JOIN \"Riferimento\" ON \"Rimando\".\"idRimando\" = \"Riferimento\".\"idRiferimento\" WHERE \"Rimando\".\"idRiferimento\" = ?");
+        getRifxRif=connection.prepareStatement("SELECT * FROM \"Rimando\" INNER JOIN \"Riferimento\" ON \"Rimando\".\"idRimando\" = \"Riferimento\".\"idRiferimento\" WHERE \"Rimando\".\"idRiferimento\" = ?");
         postRifxRif = connection.prepareStatement("INSERT INTO \"Rimando\"(\"idRiferimento\", \"idRimando\") VALUES (?, ?) RETURNING \"id\"");
         getRif = connection.prepareStatement("SELECT * FROM \"Riferimento\" INNER JOIN \"Tipologia\" ON \"Riferimento\".\"tipo\" = \"Tipologia\".\"idTipologia\" WHERE \"idUser\"= ?");
         setRimandi = connection.prepareStatement("SELECT * FROM \"Riferimento\" WHERE \"idRiferimento\" != ? ");
@@ -46,6 +48,19 @@ public class RifBiblioDAO implements RifBiblioDAOI {
         ObservableList<RifBibliografico> listaRif = FXCollections.observableArrayList();
         getRif.setInt(1,idUser);
         ResultSet res = getRif.executeQuery();
+        while(res.next()){
+            //listaRif.add(new RifBibliografico(res.getInt("idRiferimento"),res.getString("titolo"),res.getString("data"), res.getString("url"), res.getString("doi"), res.getString("tipo"), res.getString("idUser"),res.getString("descrizione"), res.getInt("idRimando")/*,getRifXAutore(res.getInt("idAutore"))*/));
+            listaRif.add(new RifBibliografico(res.getInt("idRiferimento"),res.getString("titolo"),res.getString("data"), res.getString("url"), res.getString("doi"), res.getString("nome"), res.getString("idUser"),res.getString("descrizione"), null/*,getRifXAutore(res.getInt("idAutore"))*/));
+
+        }
+        return listaRif;
+    }
+    @Override
+    public ObservableList<RifBibliografico> getAdvanceRif(Integer idUser,String filtro) throws SQLException {
+        ObservableList<RifBibliografico> listaRif = FXCollections.observableArrayList();
+        getAdvaceRif.setInt(1,idUser);
+        getAdvaceRif.setString(2,filtro);
+        ResultSet res = getAdvaceRif.executeQuery();
         while(res.next()){
             //listaRif.add(new RifBibliografico(res.getInt("idRiferimento"),res.getString("titolo"),res.getString("data"), res.getString("url"), res.getString("doi"), res.getString("tipo"), res.getString("idUser"),res.getString("descrizione"), res.getInt("idRimando")/*,getRifXAutore(res.getInt("idAutore"))*/));
             listaRif.add(new RifBibliografico(res.getInt("idRiferimento"),res.getString("titolo"),res.getString("data"), res.getString("url"), res.getString("doi"), res.getString("nome"), res.getString("idUser"),res.getString("descrizione"), null/*,getRifXAutore(res.getInt("idAutore"))*/));
