@@ -152,7 +152,12 @@ public class GestioneCreazioneController implements Initializable {
 
                     RifAutoriDAO rifAutoriDAO = new RifAutoriDAO(DbConnection.getInstance().getConnection());
                     Utente utente = new Utente();
-                    Integer id = rif.postRif(titolo.getText(), url.getText(), doi.getText() == ""?null: doi.getText(), descrizione.getText(), String.valueOf(dataCreazione.getValue()),tipo.getValue().getIdTipologia(), utente.getCodiceUnivoco());
+                    Integer id;
+                    if((tipo.getValue().getNome().equals("risorsa online") || tipo.getValue().getNome().equals("Risorsa online")) && url.getText().isEmpty()) {
+                        throw new PopUpException("Inserire url per risorsa online");
+                    }else{
+                        id = rif.postRif(titolo.getText(), url.getText(), doi.getText() == ""?null: doi.getText(), descrizione.getText(), String.valueOf(dataCreazione.getValue()),tipo.getValue().getIdTipologia(), utente.getCodiceUnivoco());
+                    }
                     autori.getItems().filtered( f -> f.getCheck()).forEach( item ->
                     {
                         try {
