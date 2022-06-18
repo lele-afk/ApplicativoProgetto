@@ -32,10 +32,10 @@ public class RifBiblioDAO implements RifBiblioDAOI {
         deleteRifXRimando = connection.prepareStatement("DELETE FROM public.\"Rimando\" WHERE \"idRiferimento\" = ? Returning \"idRiferimento\"");
         deleteRifXAutore = connection.prepareStatement("DELETE FROM public.\"RiferimentoXAutore\" WHERE \"idRiferimento\" = ? Returning \"idRiferimento\"");
         deleteRif=connection.prepareStatement("DELETE FROM public.\"Riferimento\" WHERE \"idRiferimento\" = ? Returning \"idRiferimento\"");
-        getRifxRif=connection.prepareStatement("SELECT * FROM \"Rimando\" INNER JOIN \"Riferimento\" ON \"Rimando\".\"idRimando\" = \"Riferimento\".\"idRiferimento\" WHERE \"Rimando\".\"idRiferimento\" = ?");
+        getRifxRif=connection.prepareStatement("SELECT * FROM \"Rimando\" INNER JOIN \"Riferimento\" ON \"Rimando\".\"idRimando\" = \"Riferimento\".\"idRiferimento\" INNER JOIN \"Tipologia\" ON \"Riferimento\".\"tipo\" = \"Tipologia\".\"idTipologia\" WHERE \"Rimando\".\"idRiferimento\" = ?");
         postRifxRif = connection.prepareStatement("INSERT INTO \"Rimando\"(\"idRiferimento\", \"idRimando\") VALUES (?, ?) RETURNING \"id\"");
         getRif = connection.prepareStatement("SELECT * FROM \"Riferimento\" INNER JOIN \"Tipologia\" ON \"Riferimento\".\"tipo\" = \"Tipologia\".\"idTipologia\" WHERE \"idUser\"= ?");
-        setRimandi = connection.prepareStatement("SELECT * FROM \"Riferimento\" WHERE \"idRiferimento\" != ? ");
+        setRimandi = connection.prepareStatement("SELECT * FROM \"Riferimento\" INNER JOIN \"Tipologia\" ON \"Riferimento\".\"tipo\" = \"Tipologia\".\"idTipologia\" WHERE \"idRiferimento\" != ? ");
         deleteRimando = connection.prepareStatement("DELETE FROM public.\"Rimando\" WHERE \"idRimando\" = ? Returning \"idRimando\"");
         // getRif = connection.prepareStatement("SELECT DISTINCT  * FROM \"Riferimento\" FULL JOIN \"Rimando\" ON \"Rimando\".\"idRiferimento\" = \"Riferimento\".\"idRiferimento\"");
         getRifWithTitle = connection.prepareStatement("SELECT * FROM \"Riferimento\" WHERE \"titolo\" = ?");
@@ -129,7 +129,7 @@ public class RifBiblioDAO implements RifBiblioDAOI {
         ResultSet res = setRimandi.executeQuery();
         while(res.next()){
             //listaRif.add(new RifBibliografico(res.getInt("idRiferimento"),res.getString("titolo"),res.getString("data"), res.getString("url"), res.getString("doi"), res.getString("tipo"), res.getString("idUser"),res.getString("descrizione"), res.getInt("idRimando")/*,getRifXAutore(res.getInt("idAutore"))*/));
-            listaRif.add(new RifBibliografico(res.getInt("idRiferimento"),res.getString("titolo"),res.getString("data"), res.getString("url"), res.getString("doi"), res.getString("tipo"), res.getString("idUser"),res.getString("descrizione"), null/*,getRifXAutore(res.getInt("idAutore"))*/));
+            listaRif.add(new RifBibliografico(res.getInt("idRiferimento"),res.getString("titolo"),res.getString("data"), res.getString("url"), res.getString("doi"), res.getString("nome"), res.getString("idUser"),res.getString("descrizione"), null/*,getRifXAutore(res.getInt("idAutore"))*/));
 
         }
         return listaRif;
@@ -142,7 +142,7 @@ public class RifBiblioDAO implements RifBiblioDAOI {
 
         while(res.next()){
 
-            listaRif.add(new RifBibliografico(res.getInt("idRiferimento"),res.getString("titolo"),res.getString("data"), res.getString("url"), res.getString("doi"), res.getString("tipo"), res.getString("idUser"),res.getString("descrizione"), res.getInt("idRimando")));
+            listaRif.add(new RifBibliografico(res.getInt("idRiferimento"),res.getString("titolo"),res.getString("data"), res.getString("url"), res.getString("doi"), res.getString("nome"), res.getString("idUser"),res.getString("descrizione"), res.getInt("idRimando")));
 
         }
 
