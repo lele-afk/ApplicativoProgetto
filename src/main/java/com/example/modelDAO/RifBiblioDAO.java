@@ -28,7 +28,7 @@ public class RifBiblioDAO implements RifBiblioDAOI {
 
     public RifBiblioDAO(Connection connection) throws SQLException {
         this.connection = connection;
-        getAdvaceRif= connection.prepareStatement("SELECT * FROM  \"Riferimento\" INNER JOIN \"Tipologia\" ON \"Riferimento\".\"tipo\" = \"Tipologia\".\"idTipologia\" WHERE \"idUser\"= ? AND \"titolo\"= ?");
+        getAdvaceRif= connection.prepareStatement("SELECT * FROM  \"Riferimento\" INNER JOIN \"Tipologia\" ON \"Riferimento\".\"tipo\" = \"Tipologia\".\"idTipologia\" WHERE (\"titolo\" <> '' AND \"titolo\"= ?) OR (nome <> '' AND nome=?) AND \"idUser\"= ?");
         deleteRifXRimando = connection.prepareStatement("DELETE FROM public.\"Rimando\" WHERE \"idRiferimento\" = ? Returning \"idRiferimento\"");
         deleteRifXAutore = connection.prepareStatement("DELETE FROM public.\"RiferimentoXAutore\" WHERE \"idRiferimento\" = ? Returning \"idRiferimento\"");
         deleteRif=connection.prepareStatement("DELETE FROM public.\"Riferimento\" WHERE \"idRiferimento\" = ? Returning \"idRiferimento\"");
@@ -58,7 +58,8 @@ public class RifBiblioDAO implements RifBiblioDAOI {
     @Override
     public ObservableList<RifBibliografico> getAdvanceRif(Integer idUser,String filtro) throws SQLException {
         ObservableList<RifBibliografico> listaRif = FXCollections.observableArrayList();
-        getAdvaceRif.setInt(1,idUser);
+        getAdvaceRif.setInt(3,idUser);
+        getAdvaceRif.setString(1,filtro);
         getAdvaceRif.setString(2,filtro);
         ResultSet res = getAdvaceRif.executeQuery();
         while(res.next()){
